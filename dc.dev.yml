@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+    react-app:
+        ports:
+            - "3000:3000"
+            - "35729:35729"
+        build:
+            context: .
+        volumes:
+            - ./:/code
+        networks:
+            - back-tier
+        command: ./run.sh start
+
+volumes:
+    mongo-data-wt:
+        driver: local
+
+networks:
+    back-tier:
+        driver: bridge

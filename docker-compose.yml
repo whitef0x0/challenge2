@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+    server:
+        ports:
+            - "80:80"
+        image: nginx:1.13
+        volumes:
+            - ./nginx/conf.d:/etc/nginx/conf.d
+            - ./build:/var/www/site
+        networks:
+            - back-tier
+
+    react-app:
+        build:
+            context: .
+        volumes:
+            - ./:/code
+        networks:
+            - back-tier
+        command: ./run.sh build
+
+volumes:
+    mongo-data-wt:
+        driver: local
+
+networks:
+    back-tier:
+        driver: bridge

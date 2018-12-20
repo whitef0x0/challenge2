@@ -30,6 +30,30 @@
   line-height: 60px;
 }
 
+/*
+ * Submit and Back Button container styling
+*/
+.button-bar {
+  padding: 3rem 5rem 3rem 0;
+}
+
+.button-bar .btn.btn-finish {
+  color: #212529;
+  background-color: transparent;
+  font-size: 1.2rem;
+}
+
+.button-bar .btn.btn-finish:hover {
+  background-color: #e2e6ea;
+  border-color: #dae0e5;
+}
+
+.form-container {
+  padding: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid rgba(0,0,0,.125);
+}
+
 .questionContainer {
   color: #878787;
 }
@@ -49,8 +73,7 @@
   word-wrap: break-word;
   background-color: #fff;
   background-clip: border-box;
-  border: 1px solid rgba(0,0,0,.125);
-  border-radius: .25rem;
+  border-top: 1px solid rgba(0,0,0,.125);
 }
 
 

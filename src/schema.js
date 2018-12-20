@@ -2,13 +2,8 @@ import utils from './utils';
 
 export default {
   "classes" : {
-    "form": "row",
-    "questionPanelHeaderContainer": "card",
+    "form": "row form-container",
     "questionPanelHeaderText": "card-body",
-
-    "questionSetHeaderContainer": "card",
-    "questionSetHeader": "card-body",
-    "questionSetText": "card-body",
 
     "questionSet": "questionSetContainer",
     "label": "h4",
@@ -27,12 +22,11 @@ export default {
     "checkbox": "custom-control-input",
     "checkboxLabel" : "custom-control-label",
 
-
-    "controlButton" : "btn btn-primary pull-right",
-    "backButton" : "btn btn-default pull-left",
+    "buttonBar" : "button-bar",
+    "controlButton" : "btn btn-finish float-right",
+    "backButton" : "btn btn-light float-left",
     "errorMessage" : "alert alert-danger",
     "questionPostText" : "push-top",
-    "buttonBar" : "button-bar"
   },
   "formPanels" : [{
     "index" : 1,

@@ -9,8 +9,8 @@ For development and production we are currently using Docker. Make sure to have 
 2. Run docker-compose
 `docker-compose up`
 
-### Development Version
-1. Make a copy of the development docker compose file
+### Production Version
+1. Make a copy of the production docker compose file
 `cp dc.prod.yml docker-compose.yml`
 2. Run docker-compose
 `docker-compose up`

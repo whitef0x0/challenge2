@@ -7,19 +7,20 @@ class CustomRadioInput extends inputTypes.radioOptionsInput {
       <div className={this.props.classes.radioList}>
         {this.props.options.map(opt =>
           <div key={opt.value}
-              className="form-check form-check-inline btn btn-light"/*{this.props.classes.radioListItem}*/>
+              className={this.props.classes.radioListItem}>
    					<input type="radio"
+   					 id={this.props.labelId + opt.value}
              name={this.props.name}
              aria-labelledby={this.props.labelId}
-             checked={this.state.value == opt.value}
-             className="form-check-input"/*{this.props.classes.radio}*/
+             checked={this.state.value === opt.value}
+             className={this.props.classes.radio}
              required={this.props.required
                          ? 'required'
                          : undefined}
              onChange={this.handleChange.bind(this, opt.value)}
              onBlur={this.props.onBlur.bind(null, this.state.value)} />
-            <label className="form-check-label"/*{this.props.classes.radioLabel}*/
-                   id={this.props.labelId}>
+            <label className={this.props.classes.radioLabel}
+             htmlFor={this.props.labelId + opt.value}>
               {opt.text}
             </label>
           </div>

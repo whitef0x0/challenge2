@@ -1,32 +1,71 @@
-.App {
-  text-align: center;
+/*
+ *  Footer styles
+ */
+.nav-bottom > .container {
+  margin-top:30px;margin-bottom:30px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.nav-bottom .navbar-brand {
+  color:#2D7687;
+}
+.nav-bottom .navbar-tagline {
+  color: #555;
+  font-size:20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.nav-bottom .footer-list-container {
+  text-align:right;
+}
+.nav-bottom .footer-list-container .footer-list {
+  list-style-type:none;
+}
+
+.nav-bottom .footer-list li {
+  display: inline;
+  margin: 20px;
+}
+.nav-bottom .footer-link {
+  color: #2d7687;
+  font-size: 16px;
+  line-height: 60px;
+}
+
+.questionContainer {
+  color: #878787;
+}
+
+.questionContainer > .weight-input-container > .input-group-text {
+  background-color: #fff;
+}
+
+/*
+* Only display the card with its border for first-order questions
+*/
+.questionSetContainer > .questionContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
 }
 
-.App-link {
-  color: #61dafb;
+
+.checkboxContainer {
+  color: #5F5F5F;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.custom-checkbox, .custom-radio {
+  display: inline-block;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
+  margin-right: 1rem;
+}
+
+.custom-checkbox-input {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
 }

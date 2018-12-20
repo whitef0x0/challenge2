@@ -1,70 +1,33 @@
 import utils from './utils';
 
-let createPrimaryQuestion = function(questionHeader, questionDescription, checkboxOptions){
-  var questionId = utils.stringToSlug(questionHeader);
-
-  checkboxOptions = checkboxOptions.map(function(element){
-    element.value = utils.stringToSlug(element.text);
-    return element;
-  });
-
-  return {
-    "questionId": questionId,
-    "question": questionHeader,
-    "text": questionDescription,
-    "input" : {
-      "type" : "customCheckbox",
-      "options" : checkboxOptions,
-    }
-  }
-}
-
-let createSecondaryQuestion = function(questionHeader, inputConfig, isRequired){
-  let questionId = utils.stringToSlug(questionHeader);
-  let validationsArray = [];
-
-  if(inputConfig.hasOwnProperty("options")){
-    inputConfig.options = inputConfig.options.map(function(element){
-      element.value = utils.stringToSlug(element.text);
-      return element;
-    });
-  }
-
-  if(isRequired){
-    if(inputConfig.type === "radioOptionsInput" || inputConfig.type.includes("checkbox")){
-      let inputOptionValues = inputConfig.options.map(function(option){
-        return {
-          value: option.value
-        };
-      })
-
-      validationsArray = [{
-        type: "isIn",
-        params: [
-          inputOptionValues
-        ]
-      }]
-    }
-  }
-
-  return {
-    "questionId": questionId,
-    "question": questionHeader,
-    "input": inputConfig,
-    "validations": validationsArray
-  }
-}
-
 export default {
   "classes" : {
-    "input" : "form-control",
-    "select" : "form-control",
-    "question" : "form-group",
-    "radioListItem" : "btn btn-light radio",
-    "radioList" : "clean-list",
-    "checkboxInput" : "checkbox",
-    "checkboxListItem" : "checkbox",
-    "checkboxList" : "clean-list",
+    "form": "row",
+    "questionPanelHeaderContainer": "card",
+    "questionPanelHeaderText": "card-body",
+
+    "questionSetHeaderContainer": "card",
+    "questionSetHeader": "card-body",
+    "questionSetText": "card-body",
+
+    "questionSet": "questionSetContainer",
+    "label": "h4",
+    "question": "card-body questionContainer",
+    "questionText": "pl-4 pt-3",
+
+    "radioList" : "pl-4",
+    "radioListItem" : "custom-control custom-radio btn btn-light",
+    "radioInput" : "checkboxContainer",
+    "radio": "custom-control-input",
+    "radioLabel" : "custom-control-label",
+
+    "checkboxList" : "pl-4",
+    "checkboxListItem" : "custom-control custom-checkbox btn btn-light",
+    "checkboxInput" : "checkboxContainer",
+    "checkbox": "custom-control-input",
+    "checkboxLabel" : "custom-control-label",
+
+
     "controlButton" : "btn btn-primary pull-right",
     "backButton" : "btn btn-default pull-left",
     "errorMessage" : "alert alert-danger",
@@ -73,11 +36,11 @@ export default {
   },
   "formPanels" : [{
     "index" : 1,
-    "panelId" : "sypmtoms-panel"
+    "panelId" : "symptoms-panel"
   }],
   "questionPanels" : [{
-    "panelId" : "sypmtoms-panel",
-    "panelHeader" : "This section asks about any sypmtoms you have been experiencing lately",
+    "panelId" : "symptoms-panel",
+    "panelHeader" : "This section asks about any symptoms you have been experiencing lately",
     "button" : {
       "text" : "Finish"
     },
@@ -94,20 +57,18 @@ export default {
   }],
   "questionSets" : [
     {
-      "questionSetId" : "legal-disclaimer-set",
-      "questionSetHeader" : "A note about the symptoms you are or have recently been feeling *",
-      "questionSetText" : `A Prenuvo scan is a screen for cancer and many major diseases.
-                          \nThe symptoms that you are feeling now or recently are important context for our review of the images that we acquire of your body. 
-                          \nHowever, if you are feeling acute symptoms, it is important that you visit your family dotor to determine what is the best diagnostic approach 
-                          that you should follow. A Prenuvo scan can diagnose many conditions, can provide additional insight to a diagnosis but it is not always the most diagnostically
-                          relevant approach for any one particular condition.`,
+      "questionSetId" : "legal-disclaimer-set",      
       "questions" : [{
         "questionId" : "legal-disclaimer",
+        "question": "A note about the symptoms you are or have recently been feeling",
+        "text": `
+            A Prenuvo scan is a screen for cancer and many major diseases.
+            \nThe symptoms that you are feeling now or recently are important context for our review of the images that we acquire of your body. 
+            \nHowever, if you are feeling acute symptoms, it is important that you visit your family dotor to determine what is the best diagnostic approach 
+            that you should follow. A Prenuvo scan can diagnose many conditions, can provide additional insight to a diagnosis but it is not always the most diagnostically
+            relevant approach for any one particular condition.`,
         "validations" : [{
-          "type"    : "equals",
-          "params" : [
-            "accepted"
-          ]
+          "type"    : "hasAccepted"
         }],
         "input" : {
           "type" : "customRadio",
@@ -121,29 +82,47 @@ export default {
     {
       "questionSetId" : "symptoms-set",
       "questions" : [
-        createPrimaryQuestion(
+        utils.createPrimaryQuestionSchema(
           "General Symptoms",
           "Check any of the following symptoms that you are or have recently experienced",
           [
             {
               "text"  : "Recent weight gain",
+              "conditionalQuestions": [
+                utils.createSecondaryQuestionSchema(
+                  "How much weight did you gain?",
+                  {
+                    type: "weightInput"
+                  },
+                  true
+                ),
+              ]
             },
             {
               "text"  : "Recent weight loss",
+              "conditionalQuestions": [
+                utils.createSecondaryQuestionSchema(
+                  "How much weight did you lose?",
+                  {
+                    type: "weightInput",
+                  },
+                  true
+                ),
+              ]
             }
           ]
         ),
-        createPrimaryQuestion(
+        utils.createPrimaryQuestionSchema(
           "Head Symptoms",
           "Check any of the following symptoms that you are or have recently experienced",
           [
             {
               "text" : "Frequent headaches",
               "conditionalQuestions": [
-                createSecondaryQuestion(
+                utils.createSecondaryQuestionSchema(
                   "What are the most frequent locations of your headaches?",
                   {
-                    type: "checkboxOptions",
+                    type: "customCheckbox",
                     options: [
                       {
                         "text"  : "Front",
@@ -161,10 +140,10 @@ export default {
                   },
                   true
                 ),
-                createSecondaryQuestion(
+                utils.createSecondaryQuestionSchema(
                   "What is the frequency of your headaches",
                   {
-                    type: "radioOptionsInput",
+                    type: "customRadio",
                     options: [
                       {
                         "text"  : "Daily",
@@ -185,9 +164,81 @@ export default {
               ]
             },
             {
-              "text"  : "Recent weight loss",
-            }
-          ]
+              "text" : "Frequent migraines",
+              "conditionalQuestions": [
+                utils.createSecondaryQuestionSchema(
+                  "What are the most frequent locations of your migraines?",
+                  {
+                    type: "customCheckbox",
+                    options: [
+                      {
+                        "text"  : "Front",
+                      },
+                      {
+                        "text"  : "Back",
+                      },
+                      {
+                        "text"  : "Left side",
+                      },
+                      {
+                        "text"  : "Right side",
+                      }
+                    ]
+                  },
+                  true
+                ),
+                utils.createSecondaryQuestionSchema(
+                  "What is the frequency of your migraines",
+                  {
+                    type: "customRadio",
+                    options: [
+                      {
+                        "text"  : "Daily",
+                      },
+                      {
+                        "text"  : "2-3 times/week",
+                      },
+                      {
+                        "text"  : "Weekly",
+                      },
+                      {
+                        "text"  : "Less frequent",
+                      }
+                    ]
+                  },
+                  true
+                )
+              ]
+            },
+            {
+              "text" : "Head injuries or concussion"
+            },
+            {
+              "text" : "Eye pain"
+            },
+            {
+              "text" : "Earache or ear drainage"
+            },
+            {
+              "text" : "Ringing in the ears"
+            },
+            {
+              "text" : "Hearing loss"
+            },
+            {
+              "text" : "Frequent colds"
+            },
+            {
+              "text" : "Frequent hayfever"
+            },
+            {
+              "text" : "Sinus pain"
+            },
+            {
+              "text" : "Blurred vision"
+            },
+          ],
+          []
         )
       ]
     },

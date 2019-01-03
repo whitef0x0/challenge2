@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+yarn
+
 case $1 in
   start)
     # The '| cat' is to trick Node that this is an non-TTY terminal
